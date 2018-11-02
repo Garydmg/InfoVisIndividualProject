@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Deterministic Queue Visualization</title>
+    <link rel="stylesheet" href="css/skeleton.css" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
+    <script type="text/javascript" src="js/draw.js"></script>
+
+    <div class="container">
+        <div class="row centered">
+            <div class="eight columns offset-by-two alpha">
+                <h1>Deterministic Queue Visualizations</h1>
+            </div>
+        </div>
+        <div class="row centered" id="intro">
+            <div class="eight columns offset-by-two alpha">
+                <h2>1. Background</h2>
+                <h5>Queues are ubiquitous. From cafeterias, bus stops, to daily traffic, customers have all experienced waiting, and expected to be served as soon as possible ("Demand"). On the other hand, service providers are searching for ways to improve their efficiency ("Supply"). To capture the nuances between demand and supply, simulations can be run to optimize the queuing system. Under the hood, there are many complex equations governing various scenarios. However, they can be greatly simplified without losing much accuracy in calculation. On this page, we will gain some intuitions about queuing system.</h5>
+
+                <h2>2. A Brief Description of Queuing System Modeling</h2>
+                <h5></h5>
+                <img src="./image/Queue.jpg" class="resize">
+                <h5>The figure above illustrates a typical queuing system with one server. Customers arrive in a random fashion with expected rate &#955, whereas the server processes customers at &#956. Such randomness can be approximated stocastically using either exponential or poisson distributions. For large customer flow, such as car traffic at a highway bottleneck, uniform distribution can be applied. In this case, the queuing system is deterministic. </h5>
+
+                <h2>3. Intuition</h2>
+                <img src="./image/Graph.jpg" class="resize">
+                <h5>A deterministic queue with one server can be interpreted as a cumulative frequency graph shown in the figure above. We hypothesize that two counters are placed on both ends of the queuing system. One records the total customers arrived, the other records total customers served. Both counters start, capture trend, and stop simultaneously. </h5>
+                <h5>Key quantities can be derived from the figure above. The slope of red line represents arrival frequency &#955, whereas that of blue line indicates service frequency &#956. The vertical distance between two lines is the queue length, the horizontal means the time taken for a customer to exit the queue. The area enclosed by two lines is the total wait time. When divided by time elapsed, the average wait time can be computed. </h5>
+                <h5>Another meaningful intuition is that the cumulative service count (blue line) can never exceed arrival count. This is equivalent to conservation of energy, where the amount of people entering the system ("energy input") is always greater, or equal to the number exiting the system ("energy output"). The "absorbed energy" is equivalent to the number of people waiting in line. </h5>
+
+                <h2>4. Let's Visualize</h2>
+                <h5>We can reinforce our intuition by running the mini-simulation below. This is a dynamic visualization, in which three parameters (arrival and service rates, plot density) can be selected via sliders in real time. Meanwhile, you can look at how the key quantities change from "Queue Status". If you wish to clear the charts and retart from scratch, simply refresh your browser. </h5>
+                <h5>Change parameters any way you want. Have you observed any unexpected trends?</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="column">
+            <div class="chart" id="chart1"></div>
+            <div class="chart" id="chart2"></div>
+            <div class="chart" id="chart3"></div>
+        </div>
+
+        <div class="column">
+            <h3 id=blank>Click to Start/Stop Simulation </h3>
+            <div class="row centered" id="start">
+                <div class="button" id="start">Start</div>
+            </div>
+
+            <h3>Adjust Arrival Frequency</h3>
+            <h4>(# of People / sec)</h4>
+            <div id="sliderArrival"></div>     
+        
+            <h3>Adjust Service Frequency</h3>
+            <h4>(# of People / sec)</h4>
+            <div id="sliderService"></div>     
+     
+            <h3>Plot Density</h3>
+            <h4>(Plot Dot In Every x Second)</h4>
+            <div id="stepSize"></div>   
+
+            <h3>Queue Status</h3>
+            <div id="queueInfo">
+                <h3 id="arrived">Arrived: </h3>
+                <li id="arrivedVal">0</li>
+                <h3 id="served">Served: </h3>
+                <li id="servedVal">0</li>
+                <h3 id="queued">Queued: </h3>
+                <li id="queuedVal">0</li>
+                <h3 id="avgWaitTime">Average Wait Time: </h3>
+                <li id="avgWaitTimeval">0</li>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
